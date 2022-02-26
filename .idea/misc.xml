@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/GeoQuiz/GeoQuiz/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Android/GeoQuiz/GeoQuiz/app/src/main/res/layout-land/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/GeoQuiz/GeoQuiz/app/src/main/res/layout-square/name.xml" value="0.1" />
+        <entry key="..\:/Android/GeoQuiz/GeoQuiz/app/src/main/res/layout/activity_main.xml" value="0.5" />
       </map>
     </option>
   </component>

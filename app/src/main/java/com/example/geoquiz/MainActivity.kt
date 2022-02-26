@@ -2,6 +2,7 @@ package com.example.geoquiz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -20,7 +21,10 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true)
     )
     private var currentIndex = 0
+    private val TAG = "MainActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate: called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         trueButton = findViewById(R.id.true_button)
@@ -60,5 +64,30 @@ class MainActivity : AppCompatActivity() {
             )
                 .show()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: called")
     }
 }
