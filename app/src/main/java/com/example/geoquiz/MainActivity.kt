@@ -6,27 +6,26 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 
+private const val TAG = "MainActivity"
+private const val KEY_INDEX = "index"
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
     private lateinit var questionTextView: TextView
-    private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true)
-    )
-    private var currentIndex = 0
-    private val TAG = "MainActivity"
-
+    private val quizViewModel:QuizViewModel by lazy {
+        ViewModelProvider(this).get(QuizViewModel::class.java)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate: called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val currentIndex = savedInstanceState?.getInt(KEY_INDEX,0) ?: 0
+        quizViewModel.currentIndex = currentIndex
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         questionTextView = findViewById(R.id.question_text_view)
@@ -39,16 +38,16 @@ class MainActivity : AppCompatActivity() {
         }
         updateQuestion()
         nextButton.setOnClickListener {
-            currentIndex = (currentIndex+1)%questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
         }
     }
     private fun updateQuestion(){
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean){
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         if (userAnswer == correctAnswer){
             Toast.makeText(
                 this,
@@ -89,5 +88,14 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume: called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: called")
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_INDEX,quizViewModel.currentIndex)
     }
 }
